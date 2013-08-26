@@ -36,13 +36,33 @@
     showerror();
   }
 ?>
+<script defer="defer" type="text/javascript"><!--
+/* Start of form validation: */
+
+function validateForm(formElement) {
+  
+  if (formElement.minYear.value > formElement.maxYear.value)
+  {
+    return focusElement(formElement.minYear,'Please enter a min Year less than max year');
+  }
+  return true;
+}
+function focusElement(element, errorMsg) {
+  alert((errorMsg.length > 0) ? errorMsg :
+    'You did not enter valid data; please try again');
+  if (element.select) element.select();
+  if (element.focus) element.focus();
+
+  return false;
+}
+//--></script>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>Wine Search Page</title>
   </head>
   <body bgcolor="white">
-    <form action="results.php" method="GET">
+    <form action="results.php" method="GET" onsubmit="return validateForm(this);">
     <table id='search' border='0'>
       <tr>
       <td>Enter a wine name: </td>
@@ -60,13 +80,15 @@
       <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
       </td></tr>
       <tr><td>Select Year range: </td><td>
-      <?php selectDistinct($conn, "wine", "year", "minYear", ""); 
-      selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
+      <?php selectDistinct($conn, "wine", "year", "minYear", ""); ?> To 
+      <?php selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
       </td></tr>
-      <tr><td>Minimum Wine Stock: </td>
-      <td><input type="text" name="minStock" value="" maxlength="3" size="3"></td></tr>
-      <tr><td>Maximum Wine Stock: </td>
-      <td><input type="text" name="maxStock" value="" maxlength="3" size="3"></td></tr>
+      <tr><td>Wine Stock Range: </td>
+      <td>Min: <input type="text" name="minStock" value="" maxlength="3" size="3">   
+      Max: <input type="text" name="maxStock" value="" maxlength="3" size="3"></td></tr>
+      <tr><td>Select Cost Range: </td>
+      <td>Min: $<input type="text" name="minCost" value="" maxlength="4" size="4"> 
+      Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td></tr>
       <tr>
       <td><input type="submit" value="Search Wines"></td>
       </tr>
