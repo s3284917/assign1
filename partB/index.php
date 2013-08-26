@@ -3,7 +3,7 @@
 <?php
   require "db.php";
   //function to query sql database to populate pulldown  
-  function selectRegion($conn, $tableName, $attrName, $pulldownName, $defaultVal) {
+  function selectDistinct($conn, $tableName, $attrName, $pulldownName, $defaultVal) {
     $defaultWithinResultSet = FALSE;
     //query string for getting data
     $distinctQuery = "SELECT DISTINCT {$attrName} FROM {$tableName}";
@@ -53,9 +53,11 @@
       <td><input type="text" name="wineryName" value=""></td>
       </tr>
       <tr>
-      <td>Select a region: </td>
-      <td><?php selectRegion($conn, "region", "region_name", "regionName". "All"); ?>
+      <td>Select a region: </td><td>
+      <?php selectDistinct($conn, "region", "region_name", "regionName", "All"); ?>
       </td></tr>
+      <tr><td>Select Grape variety: </td><td>
+      <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
       <tr>
       <td><input type="submit" value="Search Wines"></td>
       </tr>
