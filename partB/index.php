@@ -63,6 +63,10 @@
       <?php selectDistinct($conn, "wine", "year", "minYear", ""); 
       selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
       </td></tr>
+      <tr><td>Minimum Wine Stock: </td>
+      <td><input type="text" name="minStock" value="" maxlength="3" size="3"></td></tr>
+      <tr><td>Maximum Wine Stock: </td>
+      <td><input type="text" name="maxStock" value="" maxlength="3" size="3"></td></tr>
       <tr>
       <td><input type="submit" value="Search Wines"></td>
       </tr>
