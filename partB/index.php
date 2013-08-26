@@ -6,7 +6,7 @@
   function selectDistinct($conn, $tableName, $attrName, $pulldownName, $defaultVal) {
     $defaultWithinResultSet = FALSE;
     //query string for getting data
-    $distinctQuery = "SELECT DISTINCT {$attrName} FROM {$tableName}";
+    $distinctQuery = "SELECT DISTINCT {$attrName} FROM {$tableName} ORDER BY {$attrName}";
     //run Query and make sure it doesnt error
     if (!($resultId = @ mysql_query ($distinctQuery, $conn)))
       showerror();
@@ -58,6 +58,11 @@
       </td></tr>
       <tr><td>Select Grape variety: </td><td>
       <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
+      </td></tr>
+      <tr><td>Select Year range: </td><td>
+      <?php selectDistinct($conn, "wine", "year", "minYear", ""); 
+      selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
+      </td></tr>
       <tr>
       <td><input type="submit" value="Search Wines"></td>
       </tr>
