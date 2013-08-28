@@ -36,7 +36,9 @@
     showerror();
   }
 
-  if ($_GET['errRegion']) { $errRegion = $_GET['errRegion']; }
+  if ($_GET['errYear']) { $errYear = $_GET['errYear']; }
+  if ($_GET['errStock']) { $errStock = $_GET['errStock']; }
+  if ($_GET['errCost']) { $errCost = $_GET['errCost']; }
 ?>
 <script defer="defer" type="text/javascript"><!--
 /* Start of form validation: */
@@ -77,21 +79,23 @@ function focusElement(element, errorMsg) {
       <tr>
       <td>Select a region: </td><td>
       <?php selectDistinct($conn, "region", "region_name", "regionName", "All"); ?>
-      </td>
-      <td><?php if ($errRegion) { echo $errRegion; } ?></td></tr>
+      </td></tr>
       <tr><td>Select Grape variety: </td><td>
       <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
       </td></tr>
       <tr><td>Select Year range: </td><td>
       <?php selectDistinct($conn, "wine", "year", "minYear", ""); ?> To 
       <?php selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
-      </td></tr>
+      </td>
+      <td><?php if ($errYear) { echo $errYear; }?></td></tr>
       <tr><td>Wine Stock Range: </td>
       <td>Min: <input type="text" name="minStock" value="" maxlength="3" size="3">   
-      Max: <input type="text" name="maxStock" value="" maxlength="3" size="3"></td></tr>
+      Max: <input type="text" name="maxStock" value="" maxlength="3" size="3"></td>
+      <td><?php if ($errStock) { echo $errStock; }?></td></tr>
       <tr><td>Select Cost Range: </td>
       <td>Min: $<input type="text" name="minCost" value="" maxlength="4" size="4"> 
-      Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td></tr>
+      Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td>
+      <td><?php if ($errCost) { echo $errCost; }?></td></tr>
       <tr>
       <td><input type="submit" value="Search Wines"></td>
       </tr>
