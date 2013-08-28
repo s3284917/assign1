@@ -16,7 +16,7 @@
 
   require 'db.php';
 
-  function displayWines($conn, $query,) {
+  function displayWines($conn, $query) {
   
     if (!($result = @mysql_query($query, $conn))) {
       showerror();
@@ -44,7 +44,7 @@
       print "\n</table>";
     }
 
-    print "{$rowsFOund} records found.<br>";
+    print "{$rowsFound} records found.<br>";
   
   }
 
@@ -52,7 +52,22 @@
     die("Could not connect");
   }
 
+  if (!mysql_select_db(DB_NAME, $conn)) {
+    showerror();
+  }
+
+  $query = "SELECT wine_id, wine_name, year, winery_name, description FROM winery, region, wine WHERE winery.region_id = region.region_id AND wine.winery_id = winery.winery_id AND region_name = '{$_GET['regionName']}'";
+  if ($_GET['wineName'] != "") { 
   
+    $query .= " AND wine.wine_name LIKE '%{$_GET['wineName']}%'";
+ 
+  }
 
+  //$query .= ";"
 
+  displayWines($conn, $query);
+?>
+
+  </body>
+</html>
 
