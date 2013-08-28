@@ -35,6 +35,8 @@
   if (!mysql_select_db(DB_NAME, $conn)) {
     showerror();
   }
+
+  if ($_GET['errRegion']) { $errRegion = $_GET['errRegion']; }
 ?>
 <script defer="defer" type="text/javascript"><!--
 /* Start of form validation: */
@@ -75,7 +77,8 @@ function focusElement(element, errorMsg) {
       <tr>
       <td>Select a region: </td><td>
       <?php selectDistinct($conn, "region", "region_name", "regionName", "All"); ?>
-      </td></tr>
+      </td>
+      <td><?php if ($errRegion) { echo $errRegion; } ?></td></tr>
       <tr><td>Select Grape variety: </td><td>
       <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
       </td></tr>
