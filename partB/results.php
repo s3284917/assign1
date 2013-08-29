@@ -18,9 +18,6 @@
     $minYear = $_GET['minYear'];
     $maxYear = $_GET['maxYear'];
 
-    $minStock = $_GET['minStock'];
-    $maxStock = $_GET['maxStock'];
-
     $minCost = $_GET['minCost'];
     $maxCost = $_GET['maxCost'];
 
@@ -29,18 +26,13 @@
        $errYear = "Error: Min year is greater than max!";
        $errString .= "errYear={$errYear}&";
     }
-    if ($minStock > $maxStock)
-    {
-      $errStock ="Error: Min stock is greater than max!";
-      $errString .= "errStock={$errStock}&";
-    }
     if ($minCost > $maxCost)
     {
       $errCost = "Error: min Cost is greater than max!";
       $errString .= "errCost={$errCost}&";
     }
 
-    if (isset($errYear) || isset($errStock) || isset($errCost))
+    if (isset($errYear) || isset($errCost))
     {
       header("Location: index.php?{$errString}");
     }
@@ -66,6 +58,7 @@
         "\n\t<th>Region</th>" .
         "\n\t<th>Cost</th>" .
         "\n\t<th>Stock</th>" .
+        "\n\t<th>Stock Sold</th>" .
         "\n\t<th>Revenue</th>\n</tr>";
      
       while ($row = @mysql_fetch_array($result)) {
@@ -77,6 +70,7 @@
           "\n\t<td>{$row["region_name"]}</td>" .
           "\n\t<td>{$row["cost"]}</td>" .
           "\n\t<td>{$row["on_hand"]}</td>" .
+          "\n\t<td>{$row["sold"]}</td>" .
           "\n\t<td>{$row["revenue"]}</td>\n</tr>";
       }
 
@@ -95,7 +89,7 @@
     showerror();
   }
 
-  $query = "SELECT wine.wine_id, wine.wine_name, variety, year, winery_name, region_name, cost, on_hand, SUM(items.price) AS revenue
+  $query = "SELECT wine.wine_id, wine.wine_name, variety, year, winery_name, region_name, cost, on_hand, SUM(items.price) AS revenue, SUM(items.qty) AS sold
 FROM winery, region, wine, grape_variety, wine_variety, inventory, items
 WHERE winery.region_id = region.region_id 
 AND wine.winery_id = winery.winery_id
@@ -127,12 +121,16 @@ AND items.wine_id = wine.wine_id";
     $query .= " AND cost >= '{$_GET['minCost']}'" .
       " AND cost <= '{$_GET['maxCost']}'";
   }
-  if (strlen($_GET['minStock']) > 0 && strlen($_GET['maxStock'])>0)
+  if (strlen($_GET['minStock']))
   {
-    $query .= " AND on_hand >= '{$_GET['minStock']}'" .
-      " AND on_hand <= '{$_GET['maxStock']}'";
+    $query .= " AND on_hand >= '{$_GET['minStock']}'";
   }
-  $query .= " GROUP BY wine_id ORDER BY cost ASC";
+  $query .= " GROUP BY wine_id";
+  if (strlen($_GET['minOrdered']))
+  { 
+    $query .= " HAVING sold >= '{$_GET['minOrdered']}'";
+  }
+  $query .= " ORDER BY cost ASC";
   validateFormInput();
 
   //$query .= ";"
