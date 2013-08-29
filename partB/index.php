@@ -35,7 +35,8 @@
   if (!mysql_select_db(DB_NAME, $conn)) {
     showerror();
   }
-
+  //Checks GET for if any error values are set, and 
+  //then if so sets a variable for them.
   if ($_GET['errYear']) { $errYear = $_GET['errYear']; }
   if ($_GET['errStock']) { $errStock = $_GET['errStock']; }
   if ($_GET['errCost']) { $errCost = $_GET['errCost']; }
