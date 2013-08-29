@@ -115,10 +115,9 @@ function focusElement(element, errorMsg) {
       then display next to fields -->
       <td><?php if (isset($_GET['errCost'])) { echo $errCost; }?></td></tr>
       <tr>
-      <td></td><td><input type="submit" value="Search Wines">
-      <input type="reset" value="Reset Form"></td>
+      <td><input type="submit" value="Search Wines"></td></form>
+      <td><form action="<?php echo $php_self; ?>"><input type="submit" value="Reset Form"></td></form>
       </tr>
-    </form>
     <br>
   </body>
 </html>
