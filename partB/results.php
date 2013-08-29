@@ -21,22 +21,23 @@
     $minStock = $_GET['minStock'];
     $maxStock = $_GET['maxStock'];
 
-
+    $minCost = $_GET['minCost'];
+    $maxCost = $_GET['maxCost'];
 
     if ($minYear > $maxYear)
     {
        $errYear = "Error: Min year is greater than max!";
-       $errString .= "errYear={$errYear},";
+       $errString .= "errYear={$errYear}&";
     }
     if ($minStock > $maxStock)
     {
       $errStock ="Error: Min stock is greater than max!";
-      $errString .= "errStock={$errStock},";
+      $errString .= "errStock={$errStock}&";
     }
     if ($minCost > $maxCost)
     {
       $errCost = "Error: min Cost is greater than max!";
-      $errString = "errCost={$errCost}";
+      $errString .= "errCost={$errCost}&";
     }
 
     if (isset($errYear) || isset($errStock) || isset($errCost))
@@ -89,11 +90,15 @@
   }
 
   $query = "SELECT wine_id, wine_name, year, winery_name, description
-    FROM winery, region, wine 
-    WHERE winery.region_id = region.region_id 
-    AND wine.winery_id = winery.winery_id 
-    AND region_name = '{$_GET['regionName']}'";
-  if (isset($_GET['wineName']) { 
+FROM winery, region, wine 
+WHERE winery.region_id = region.region_id 
+AND wine.winery_id = winery.winery_id"; 
+
+  if (isset($_GET['regionName']) && $_GET['regionName'] != 'All')
+  {
+    $query .= " AND region_name = '{$_GET['regionName']}'";
+  }
+  if (isset($_GET['wineName'])) { 
   
     $query .= " AND wine.wine_name LIKE '%{$_GET['wineName']}%'";
  
