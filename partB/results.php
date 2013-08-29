@@ -59,19 +59,21 @@
 
     if ($rowsFound > 0) {
       print "\n<table border=1>\n<tr>" .
-        "\n\t<th>Wine ID</th>" .
         "\n\t<th>Wine Name</th>" .
+        "\n\t<th>Grape</th>" .
         "\n\t<th>Year</th>" .
         "\n\t<th>Winery</th>" .
-        "\n\t<th>Variety</th>\n</tr>";
+        "\n\t<th>Region</th>" .
+        "\n\t<th>Cost</th>\n</tr>";
      
       while ($row = @mysql_fetch_array($result)) {
         
-        print "\n<tr>\n\t<td>{$row["wine_id"]}</td>" .
-          "\n\t<td>{$row["wine_name"]}</td>" .
+        print "\n<tr>\n\t<td>{$row["wine_name"]}</td>" .
+          "\n\t<td>{$row["variety"]}</td>" .
           "\n\t<td>{$row["year"]}</td>" .
           "\n\t<td>{$row["winery_name"]}</td>" .
-          "\n\t<td>{$row["variety"]}</td>\n</tr>";
+          "\n\t<td>{$row["region_name"]}</td>" .
+          "\n\t<td>{$row["cost"]}</tD>\n</tr>";
       }
 
       print "\n</table>";
@@ -89,32 +91,44 @@
     showerror();
   }
 
-  $query = "SELECT wine.wine_id, wine_name, year, winery_name, variety
-FROM winery, region, wine, grape_variety, wine_variety 
+  $query = "SELECT wine.wine_id, wine.wine_name, variety, year, winery_name, region_name, cost
+FROM winery, region, wine, grape_variety, wine_variety, inventory 
 WHERE winery.region_id = region.region_id 
 AND wine.winery_id = winery.winery_id
 AND wine_variety.wine_id = wine.wine_id
-AND wine_variety.variety_id = grape_variety.variety_id"; 
+AND wine_variety.variety_id = grape_variety.variety_id
+AND wine.wine_id = inventory.wine_id"; 
 
   if (isset($_GET['regionName']) && $_GET['regionName'] != 'All')
   {
     $query .= " AND region_name = '{$_GET['regionName']}'";
   }
-  if (isset($_GET['wineName'])) {  
+  if (strlen($_GET['wineName'])>0) {  
     $query .= " AND wine.wine_name LIKE '%{$_GET['wineName']}%'";
   }
-  if (isset($_GET['wineryName'])) {
+  if (strlen($_GET['wineryName'])>0) {
     $query .= " AND winery.winery_name LIKE '%{$_GET['wineryName']}%'";
   }
   if (isset($_GET['grapeVariety'])) {
     $query .= " AND grape_variety.variety = '{$_GET['grapeVariety']}'";
   }
-
+  if (isset($_GET['minYear']) && isset($_GET['maxYear']))
+  {
+    $query .= " AND wine.year >= '{$_GET['minYear']}'" .
+      " AND wine.year <= '{$_GET['maxYear']}'";
+  }
+  if (strlen($_GET['minCost']) > 0 && strlen($_GET['maxCost'])>0)
+  {
+    $query .= " AND cost >= '{$_GET['minCost']}'" .
+      " AND cost <= '{$_GET['maxCost']}'";
+  }
+  $query .= " ORDER BY cost ASC";
   validateFormInput();
 
   //$query .= ";"
-
+  
   displayWines($conn, $query);
+  //echo $query;
 ?>
 
   </body>
