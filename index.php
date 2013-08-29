@@ -56,7 +56,7 @@
   </head>
   <body bgcolor="white">
     <!-- Input form to be sent to query DB -->
-    <form action="results.php" method="GET" onsubmit="return validateForm(this);">
+    <form action="results.php" method="GET">
     <table id='search' border='0'>
       <tr>
       <td>Enter a wine name: </td>
