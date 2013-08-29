@@ -1,6 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
 "http://www.w3.org/TR/html401/loose.dtd">
 <?php
+
+  function showerror() {
+    die("Error " . mysql_errno() . " : " .mysql_error());
+  }
   //use the php file with database data stored as variables
   require "db.php";
   //function to query sql database to populate pulldown  
