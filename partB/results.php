@@ -58,12 +58,12 @@
     $rowsFound = @mysql_num_rows($result);
 
     if ($rowsFound > 0) {
-      print "\n<table>\n<tr>" .
+      print "\n<table border=1>\n<tr>" .
         "\n\t<th>Wine ID</th>" .
         "\n\t<th>Wine Name</th>" .
         "\n\t<th>Year</th>" .
         "\n\t<th>Winery</th>" .
-        "\n\t<th>Description</th>\n</tr>";
+        "\n\t<th>Variety</th>\n</tr>";
      
       while ($row = @mysql_fetch_array($result)) {
         
@@ -71,7 +71,7 @@
           "\n\t<td>{$row["wine_name"]}</td>" .
           "\n\t<td>{$row["year"]}</td>" .
           "\n\t<td>{$row["winery_name"]}</td>" .
-          "\n\t<td>{$row["description"]}</td>\n</tr>";
+          "\n\t<td>{$row["variety"]}</td>\n</tr>";
       }
 
       print "\n</table>";
@@ -89,19 +89,25 @@
     showerror();
   }
 
-  $query = "SELECT wine_id, wine_name, year, winery_name, description
-FROM winery, region, wine 
+  $query = "SELECT wine.wine_id, wine_name, year, winery_name, variety
+FROM winery, region, wine, grape_variety, wine_variety 
 WHERE winery.region_id = region.region_id 
-AND wine.winery_id = winery.winery_id"; 
+AND wine.winery_id = winery.winery_id
+AND wine_variety.wine_id = wine.wine_id
+AND wine_variety.variety_id = grape_variety.variety_id"; 
 
   if (isset($_GET['regionName']) && $_GET['regionName'] != 'All')
   {
     $query .= " AND region_name = '{$_GET['regionName']}'";
   }
-  if (isset($_GET['wineName'])) { 
-  
+  if (isset($_GET['wineName'])) {  
     $query .= " AND wine.wine_name LIKE '%{$_GET['wineName']}%'";
- 
+  }
+  if (isset($_GET['wineryName'])) {
+    $query .= " AND winery.winery_name LIKE '%{$_GET['wineryName']}%'";
+  }
+  if (isset($_GET['grapeVariety'])) {
+    $query .= " AND grape_variety.variety = '{$_GET['grapeVariety']}'";
   }
 
   validateFormInput();
