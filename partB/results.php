@@ -127,6 +127,11 @@ AND items.wine_id = wine.wine_id";
     $query .= " AND cost >= '{$_GET['minCost']}'" .
       " AND cost <= '{$_GET['maxCost']}'";
   }
+  if (strlen($_GET['minStock']) > 0 && strlen($_GET['maxStock'])>0)
+  {
+    $query .= " AND on_hand >= '{$_GET['minStock']}'" .
+      " AND on_hand <= '{$_GET['maxStock']}'";
+  }
   $query .= " GROUP BY wine_id ORDER BY cost ASC";
   validateFormInput();
 
