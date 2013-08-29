@@ -130,7 +130,7 @@ AND items.wine_id = wine.wine_id";
   { 
     $query .= " HAVING sold >= '{$_GET['minOrdered']}'";
   }
-  $query .= " ORDER BY cost ASC";
+  $query .= " ORDER BY wine_name ASC";
   validateFormInput();
 
   //$query .= ";"
