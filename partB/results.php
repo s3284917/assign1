@@ -122,7 +122,7 @@ AND items.wine_id = wine.wine_id";
   }
   /*Grape variety is dynamically generated in a dropdown on the
   form, so we use exact matches*/
-  if (isset($_GET['grapeVariety'])) {
+  if ($_GET['grapeVariety'] != 'All') {
     $query .= " AND grape_variety.variety = '{$_GET['grapeVariety']}'";
   }
   /*Same as above but there are 2 dropdowns for year, one for

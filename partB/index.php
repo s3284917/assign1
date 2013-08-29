@@ -4,7 +4,7 @@
   //use the php file with database data stored as variables
   require "db.php";
   //function to query sql database to populate pulldown  
-  function selectDistinct($conn, $tableName, $attrName, $pulldownName, $defaultVal) {
+  function selectDistinct($conn, $tableName, $attrName, $pulldownName, $defaultVal, $notInDB) {
     $defaultWithinResultSet = FALSE;
     //query string for getting data
     $distinctQuery = "SELECT DISTINCT {$attrName} FROM {$tableName} ORDER BY {$attrName}";
@@ -13,6 +13,10 @@
       showerror();
  
     print "\n<select name=\"{$pulldownName}\">";
+    /*Used for dropdown that doesnt have All in the DB but dont want to restrict*/
+    if (isset($defaultVal) && isset($notInDB) && $notInDB == true) {
+      print "\n\t<option selected value=\"{$defaultVal}\">{$defaultVal}";
+    }
     //Loop through while there are still values in the array
     while ($row = @ mysql_fetch_array($resultId))
     {
@@ -69,7 +73,7 @@
       </td></tr>
       <tr><td>Select Grape variety: </td><td>
       <!-- Dynamically generate dropdown for grape variety -->
-      <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "Blanc"); ?>
+      <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "All", true); ?>
       </td></tr>
       <tr><td>Select Year range: </td><td>
       <!-- Dynamically generate 2 drop downs for wine years, to select
