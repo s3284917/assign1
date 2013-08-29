@@ -100,14 +100,15 @@ function focusElement(element, errorMsg) {
       <!-- If an error was returned from the results page
       then display next to fields -->
       <td><?php if (isset($_GET['errYear'])) { echo $errYear; }?></td></tr>
-      <tr><td>Wine Stock Range: </td>
-      <!-- Text boxes to input a range of stock, max is 999 -->
-      <td>Min: <input type="text" name="minStock" value="" maxlength="3" size="3">   
-      Max: <input type="text" name="maxStock" value="" maxlength="3" size="3"></td>
+      <tr><td>Minimum Stock On Hand: </td>
+      <!-- Text boxes to input a minimumn number of stock -->
+      <td><input type="text" name="minStock" value="" maxlength="3" size="3"></td>
       <!-- If an error was returned from the results page
       then display next to fields -->
       <td><?php if (isset($_GET['errStock'])) { echo $errStock; }?></td></tr>
-      <tr><td>Select Cost Range: </td>
+      <tr><td>Minimum Stock Ordered: </td>
+      <td><input type="text" name="minOrdered" value="" maxlength="3" size="3"></td></tr>
+      <tr><td>Cost Range: </td>
       <!-- Text boxes to input a range of price, max is a length of 4 -->
       <td>Min: $<input type="text" name="minCost" value="" maxlength="4" size="4"> 
       Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td>
