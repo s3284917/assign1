@@ -45,26 +45,6 @@
   if ($_GET['errStock']) { $errStock = $_GET['errStock']; }
   if ($_GET['errCost']) { $errCost = $_GET['errCost']; }
 ?>
-<script defer="defer" type="text/javascript"><!--
-/* Start of form validation: */
-
-function validateForm(formElement) {
-  
-  if (formElement.minYear.value > formElement.maxYear.value)
-  {
-    return focusElement(formElement.minYear,'Please enter a min Year less than max year');
-  }
-  return true;
-}
-function focusElement(element, errorMsg) {
-  alert((errorMsg.length > 0) ? errorMsg :
-    'You did not enter valid data; please try again');
-  if (element.select) element.select();
-  if (element.focus) element.focus();
-
-  return false;
-}
-//--></script>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
