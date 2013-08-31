@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html401/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-">
+
+    <title>Wine Search Page</title>
+  </head>
+  <body bgcolor="white">
+    <form action="results.php" method="GET">
+    <table id='search' border='0'>
+
+    <tr>
+    <td>Enter a wine name: </td>
+    <td><input type="text" name="wineName" value=""></td>
+    </tr>
+    <tr>
+    <td>Enter a winery name: </td>
+    <td><input type="text" name="wineryName" value=""></td>
+    </tr>
+    <tr>
+    <td>Select a region: </td>
+    <!-- $BeginBlock regionDropDown -->
+    <td><select name="region_name">
+      <!-- $BeginBlock regionSelectedBlock -->
+      <option selected value=\"${regionSelectedValue}\">${regionSelectedValue}</option>
+      <!-- $EndBlock regionSelectedBlock -->
+      <!-- $BeginBlock regionOptionBlock -->
+      <option value=\"${regionOption}\">${regionOption}</option>
+      <!-- $EndBlock regionOptionBlock -->
+    </select></td>
+    <!-- $EndBlock regionDropDown -->
+    </tr>
+    <tr>
+    <td>Select Grape variety: </td>
+    <!-- $BeginBlock grapeDropDown -->
+    <td><select name="variety">
+      <!-- $BeginBlock grapeSelectedBlock -->
+      <option selected value=\"${grapeSelectedValue}\">${grapeSelectedValue}</option>
+      <!-- $EndBlock grapeSelectedBlock -->
+      <!-- $StartBlock grapeOptionBlock -->
+      <option value=\"${grapeOption}\">${grapeOption}</option>
+      <!-- $EndBlock grapeOptionBlock -->
+      </select></td>
+    <!-- $EndBlock grapeDropDown -->
+
