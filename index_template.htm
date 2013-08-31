@@ -65,4 +65,23 @@
       <td>${yearError}</td>
       <!-- $EndBlock yearErrorBlock -->
     </tr>
-
+    <tr>
+      <td>Minimum Stock on Hand: </td>
+      <td><input type="text" name="minStock" value="" maxlength="3" size="3"></td>
+    </tr>
+    <tr>
+      <td>Minimum Stock Ordered: </td>
+      <td><input type="text" name="minOrdered" value="" maxlength="3" size="3"></td>
+    </tr>
+    <tr>
+      <td>Cost Range: </td>
+      <td>Min: $<input type="text" name="minCost" value="" maxlength="4" size="4"> Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td>
+      <!-- $BeginBlock costErrorBlock -->
+      <td>${costError}</td>
+      <!-- $EndBlock costErrorBlock -->
+    </tr>
+    <tr>
+      <td><input type="submit" value="Search Wines"></td>
+    </tr>
+  </body>
+</html>
