@@ -44,4 +44,25 @@
       <!-- $EndBlock grapeOptionBlock -->
       </select></td>
     <!-- $EndBlock grapeDropDown -->
+    </tr>
+    <tr>
+      <td>Select Year range: </td>
+      <!-- $BeginBlock yearDropDown -->
+      <td>
+        <!-- $BeginBlock yearRange -->
+        <select name="${yearRangeName}">
+          <!-- $BeginBlock yearSelectedBlock -->
+          <option selected value="${yearSelectedBlock}">${yearSelectedValue}</option>
+          <!-- $EndBlock yearSelectedBlock -->
+          <!-- $BeginBlock yearOptionBlock -->
+          <option value-"${yearOption}">${yearOption}</option>
+          <!-- $EndBlock yearOptionBlock -->
+        </select>
+        <!-- $EndBlock yearRange -->
+      </td>
+      <!-- $EndBlock yearDropDown -->
+      <!-- $BeginBlock yearErrorBlock -->
+      <td>${yearError}</td>
+      <!-- $EndBlock yearErrorBlock -->
+    </tr>
 
