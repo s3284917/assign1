@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
 "http://www.w3.org/TR/html401/loose.dtd">
 <?php
-
+  session_start();
   //use the php file with database data stored as variables
   require_once "db.php";
 
@@ -45,6 +45,16 @@
   if ($_GET['errYear']) { $errYear = $_GET['errYear']; }
   if ($_GET['errStock']) { $errStock = $_GET['errStock']; }
   if ($_GET['errCost']) { $errCost = $_GET['errCost']; }
+
+  if ($_GET['sessionID'] == 'wine' && !(isset($_SESSION['id'])))
+  {
+    $_SESSION['id'] = "wine";
+    $_SESSION['wineCount'] = 0;
+  }
+  if (isset($_SESSION['id']) && ($_GET['sessionEnd'] == "true"))
+  {
+    session_destroy();
+  }
 ?>
 <html>
   <head>
@@ -100,6 +110,9 @@
       <td><input type="submit" value="Search Wines"></td></form>
       <td><form action="<?php echo $php_self; ?>"><input type="submit" value="Reset Form"></td></form>
       </tr>
+      </table>
+      <br />
+      <?php if (!isset($_SESSION['id'])) { print "<a href='index.php?sessionID=wine'>Start Session</a>"; }?>
     <br>
   </body>
 </html>

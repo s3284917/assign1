@@ -2,6 +2,8 @@
 "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html401/loose.dtd">
 <?php
+  
+  session_start();
   //Vaidates the input from a few fields in the input form
   function validateFormInput() {
     //Saves the min and max year from the GET
@@ -57,6 +59,10 @@
       foreach ($db->query($query) as $row) {
         /*Sets the variables for miniTemplator with the 
           data reqrieved from the row in the query */
+        if (isset($_SESSION['id'])) {
+          $_SESSION['wineList'][$_SESSION['nameCount']] = $row['wine_name'];
+          $_SESSION['nameCount'] += 1;
+        }
         $t->setVariable("wineName",$row["wine_name"]);
         $t->setVariable("variety",$row["variety"]);
         $t->setVariable("year",$row["year"]);
@@ -82,6 +88,16 @@
     $t->setVariable("rowsFound",$rowsFound);
     /*create the output now that all the variables on the template are 
      filled */
+    if (isset($_SESSION['id']))
+    {
+      foreach($_SESSION['wineList'] as $name)
+      {
+        $t->setVariable("sessionValue",$name);
+        $t->addBlock("sessionItem");
+      }
+      $t->addBlock("sessionBlock");
+      $t->addBlock("endSessionBlock");
+    }
     $t->generateOutput(); 
   }
   //If the connection to the DBMS fails, print error

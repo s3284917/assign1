@@ -39,6 +39,24 @@
   </table>
   <!-- $EndBlock wineTable -->
   <p>${rowsFound} Rows found!</p>
+
+  <!-- $BeginBlock sessionBlock -->
+
+  <table border=1>
+  <tr>
+    <th>Wine Names:</th>
+  </tr>
+  <!-- $BeginBlock sessionItem -->
+  <tr>
+    <td>${sessionValue}</td>
+  </tr>
+  <!-- $EndBlock sessionItem -->
+  </table>
+  <!-- $EndBlock sessionBlock -->
+   
+  <!-- $BeginBlock endSessionBlock -->
+  <p><a href="index.php?sessionEnd=true">End Session</a></p>
+  <!-- $EndBlock endSessionBlock -->
   </body>
 </html>
 
