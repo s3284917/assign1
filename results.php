@@ -1,13 +1,6 @@
 <!DOCTYPE HTML PUBLIC
 "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html401/loose.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Wine Search Results PAge</title>
-  </head>
-  <body bgcolor="white">
-
 <?php
   //Function to display mysql errors
   function showerror() {
@@ -45,8 +38,13 @@
 
   //Uses the database php file 
   require 'db.php';
+  require_once "MiniTemplator.class.php";
   //Function to query the database
   function displayWines($conn, $query) {
+    
+    $t = new MiniTemplator;
+    $ok = $t->readTemplateFromFile("results_template.htm");
+    if (!$ok) die("MiniTemplator.readTemplateFromFile failed.");
     //If the query fails, shows an error
     if (!($result = @mysql_query($query, $conn))) {
       showerror();
@@ -55,36 +53,26 @@
     $rowsFound = @mysql_num_rows($result);
     //If any rows found then prints the following
     if ($rowsFound > 0) {
-      //Table headers
-      print "\n<table border=1>\n<tr>" .
-        "\n\t<th>Wine Name</th>" .
-        "\n\t<th>Grape</th>" .
-        "\n\t<th>Year</th>" .
-        "\n\t<th>Winery</th>" .
-        "\n\t<th>Region</th>" .
-        "\n\t<th>Cost</th>" .
-        "\n\t<th>Stock</th>" .
-        "\n\t<th>Stock Sold</th>" .
-        "\n\t<th>Revenue</th>\n</tr>";
+      
       //Loops through each row of returned results
       while ($row = @mysql_fetch_array($result)) {
         //Data printed in a row
-        print "\n<tr>\n\t<td>{$row["wine_name"]}</td>" .
-          "\n\t<td>{$row["variety"]}</td>" .
-          "\n\t<td>{$row["year"]}</td>" .
-          "\n\t<td>{$row["winery_name"]}</td>" .
-          "\n\t<td>{$row["region_name"]}</td>" .
-          "\n\t<td>{$row["cost"]}</td>" .
-          "\n\t<td>{$row["on_hand"]}</td>" .
-          "\n\t<td>{$row["sold"]}</td>" .
-          "\n\t<td>{$row["revenue"]}</td>\n</tr>";
+        $t->setVariable("wineName",$row["wine_name"]);
+        $t->setVariable("variety",$row["variety"]);
+        $t->setVariable("year",$row["year"]);
+        $t->setVariable("wineryName",$row["winery_name"]);
+        $t->setVariable("regionName",$row["region_name"]);
+        $t->setVariable("cost",$row["cost"]);
+        $t->setVariable("onHand",$row["on_hand"]);
+        $t->setVariable("sold",$row["sold"]);
+        $t->setVariable("revenue",$row["revenue"]);
+        $t->addBlock("wineRow");
       }
-
-      print "\n</table>";
+      $t->addBlock("wineTable");
     }
     //Lists number of records found
-    print "{$rowsFound} records found.<br>";
-  
+    $t->setVariable("rowsFound",$rowsFound);
+    $t->generateOutput(); 
   }
   //If the connection to the DBMS fails, print error
   if (!($conn = @mysql_connect(DB_HOST, DB_USER, DB_PW))) {
