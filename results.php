@@ -37,29 +37,30 @@
   }
 
   //Uses the database php file 
-  require 'db.php';
+  require_once "db.php";
   require_once "MiniTemplator.class.php";
   //Function to query the database
-  function displayWines($conn, $query) {
+  function displayWines($query) {
     /* Using miniTemplator to seperate presentation from functionality
     Defines a new instance of miniTemplator, reads template file
     and if no error then doesnt die with an error msg. */
     $t = new MiniTemplator;
     $ok = $t->readTemplateFromFile("results_template.htm");
     if (!$ok) die("MiniTemplator.readTemplateFromFile failed.");
-    //If the query fails, shows an error
-    if (!($result = @mysql_query($query, $conn))) {
-      showerror();
-    }
-    //Gets number of rows found from query
-    $rowsFound = @mysql_num_rows($result);
-    //If any rows found then prints the following
-    if ($rowsFound > 0) {
-      
-      //Loops through each row of returned results
-      while ($row = @mysql_fetch_array($result)) {
-        //Data printed in a row
-        //Sent to the template file using variables
+    //Uses PDO to make the code DBMS independant
+    //Try catch statement for PDO
+    try {
+      //Defines connection to the DBMS
+      $dsn = DB_ENGINE . ':host=' . DB_HOST .';dbname='. DB_NAME;
+      //Connects to the database
+      $db = new PDO($dsn, DB_USER, DB_PW);
+      //define rowsFound with default value of 0
+      $rowsFound = 0;
+      /*Uses predefine query and then executes it with the database
+        Then as long as there are more rows loop */
+      foreach ($db->query($query) as $row) {
+        /*Sets the variables for miniTemplator with the 
+          data reqrieved from the row in the query */
         $t->setVariable("wineName",$row["wine_name"]);
         $t->setVariable("variety",$row["variety"]);
         $t->setVariable("year",$row["year"]);
@@ -69,10 +70,17 @@
         $t->setVariable("onHand",$row["on_hand"]);
         $t->setVariable("sold",$row["sold"]);
         $t->setVariable("revenue",$row["revenue"]);
+        //Displays the row in the output
         $t->addBlock("wineRow");
+        //Increments rowsFound to get a number of rows found
+        $rowsFound++;
       }
+      $db = null; //close db connection
+      if ($rowsFound > 0) 
       //once variables are set the block is called to display it
-      $t->addBlock("wineTable");
+        $t->addBlock("wineTable");
+    } catch(PDOException $e) {
+        echo $e->getMessage();
     }
     //Lists number of records found
     $t->setVariable("rowsFound",$rowsFound);
@@ -81,13 +89,6 @@
     $t->generateOutput(); 
   }
   //If the connection to the DBMS fails, print error
-  if (!($conn = @mysql_connect(DB_HOST, DB_USER, DB_PW))) {
-    die("Could not connect");
-  }
-  //If the connection to the database fails, print error
-  if (!mysql_select_db(DB_NAME, $conn)) {
-    showerror();
-  }
   /*Main query with all the main colums to be displayed, as well as
   linking all the tables so that the input is displayed together*/
   $query = "SELECT wine.wine_id, wine.wine_name, variety, year, winery_name, region_name, cost, on_hand, SUM(items.price) AS revenue, SUM(items.qty) AS sold
@@ -152,7 +153,7 @@ AND items.wine_id = wine.wine_id";
   //Call the validation function
   validateFormInput();
   //Call the querying function
-  displayWines($conn, $query);
+  displayWines($query);
 ?>
   </body>
 </html>
