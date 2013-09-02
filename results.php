@@ -41,7 +41,9 @@
   require_once "MiniTemplator.class.php";
   //Function to query the database
   function displayWines($conn, $query) {
-    
+    /* Using miniTemplator to seperate presentation from functionality
+    Defines a new instance of miniTemplator, reads template file
+    and if no error then doesnt die with an error msg. */
     $t = new MiniTemplator;
     $ok = $t->readTemplateFromFile("results_template.htm");
     if (!$ok) die("MiniTemplator.readTemplateFromFile failed.");
@@ -57,6 +59,7 @@
       //Loops through each row of returned results
       while ($row = @mysql_fetch_array($result)) {
         //Data printed in a row
+        //Sent to the template file using variables
         $t->setVariable("wineName",$row["wine_name"]);
         $t->setVariable("variety",$row["variety"]);
         $t->setVariable("year",$row["year"]);
@@ -68,10 +71,13 @@
         $t->setVariable("revenue",$row["revenue"]);
         $t->addBlock("wineRow");
       }
+      //once variables are set the block is called to display it
       $t->addBlock("wineTable");
     }
     //Lists number of records found
     $t->setVariable("rowsFound",$rowsFound);
+    /*create the output now that all the variables on the template are 
+     filled */
     $t->generateOutput(); 
   }
   //If the connection to the DBMS fails, print error
