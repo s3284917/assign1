@@ -53,60 +53,7 @@
   if ($_GET['errStock']) { $errStock = $_GET['errStock']; }
   if ($_GET['errCost']) { $errCost = $_GET['errCost']; }
 ?>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Wine Search Page</title>
-  </head>
-  <body bgcolor="white">
-    <!-- Input form to be sent to query DB -->
-    <form action="results.php" method="GET">
-    <table id='search' border='0'>
-      <tr>
-      <td>Enter a wine name: </td>
-      <td><input type="text" name="wineName" value=""></td>
-      </tr>
-      <tr>
-      <td>Enter a winery name: </td>
-      <td><input type="text" name="wineryName" value=""></td>
-      </tr>
-      <tr>
-      <td>Select a region: </td><td>
-      <!-- Dynamically generate dropdown for region names -->
-      <?php selectDistinct($conn, "region", "region_name", "regionName", "All"); ?>
-      </td></tr>
-      <tr><td>Select Grape variety: </td><td>
-      <!-- Dynamically generate dropdown for grape variety -->
-      <?php selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "All", true); ?>
-      </td></tr>
-      <tr><td>Select Year range: </td><td>
-      <!-- Dynamically generate 2 drop downs for wine years, to select
-      min and max for a year range -->
-      <?php selectDistinct($conn, "wine", "year", "minYear", ""); ?> To 
-      <?php selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?>
-      </td>
-      <!-- If an error was returned from the results page
-      then display next to fields -->
-      <td><?php if (isset($_GET['errYear'])) { echo $errYear; }?></td></tr>
-      <tr><td>Minimum Stock On Hand: </td>
-      <!-- Text boxes to input a minimumn number of stock -->
-      <td><input type="text" name="minStock" value="" maxlength="3" size="3"></td>
-      <!-- If an error was returned from the results page
-      then display next to fields -->
-      <td><?php if (isset($_GET['errStock'])) { echo $errStock; }?></td></tr>
-      <tr><td>Minimum Stock Ordered: </td>
-      <td><input type="text" name="minOrdered" value="" maxlength="3" size="3"></td></tr>
-      <tr><td>Cost Range: </td>
-      <!-- Text boxes to input a range of price, max is a length of 4 -->
-      <td>Min: $<input type="text" name="minCost" value="" maxlength="4" size="4"> 
-      Max: $<input type="text" name="maxCost" value="" maxlength="4" size="4"></td>
-      <!-- If an error was returned from the results page
-      then display next to fields -->
-      <td><?php if (isset($_GET['errCost'])) { echo $errCost; }?></td></tr>
-      <tr>
-      <td><input type="submit" value="Search Wines"></td></form>
-      <td><form action="<?php echo $php_self; ?>"><input type="submit" value="Reset Form"></td></form>
-      </tr>
-    <br>
-  </body>
-</html>
+      <!-- selectDistinct($conn, "region", "region_name", "regionName", "All"); ?>
+      <selectDistinct($conn, "grape_variety", "variety", "grapeVariety", "All", true); ?>
+      selectDistinct($conn, "wine", "year", "minYear", ""); ?> To 
+      selectDistinct($conn, "wine", "year", "maxYear", "1999"); ?> -->
