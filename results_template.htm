@@ -38,8 +38,9 @@
 
   </table>
   <!-- $EndBlock wineTable -->
+  <!-- $BeginBlock rowsFoundBlock -->
   <p>${rowsFound} Rows found!</p>
-
+  <!-- $EndBlock rowsFoundBlock -->
   <!-- $BeginBlock sessionBlock -->
 
   <table border=1>
@@ -53,7 +54,12 @@
   <!-- $EndBlock sessionItem -->
   </table>
   <!-- $EndBlock sessionBlock -->
-   
+  <!-- $BeginBlock listWinesBlock -->
+  <p><a href="results.php?listWines=true">List Wines searched in Session</a></p>
+  <!-- $EndBlock listWinesBlock -->
+  <!-- $BeginBlock searchAgainBlock -->
+  <p><a href="index.php">Search Again!</a></p>
+  <!-- $EndBlock searchAgainBlock -->
   <!-- $BeginBlock endSessionBlock -->
   <p><a href="index.php?sessionEnd=true">End Session</a></p>
   <!-- $EndBlock endSessionBlock -->

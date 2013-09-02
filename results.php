@@ -47,6 +47,8 @@
     if (!$ok) die("MiniTemplator.readTemplateFromFile failed.");
     //Uses PDO to make the code DBMS independant
     //Try catch statement for PDO
+    
+    if (!(isset($_GET['listWines']))) {
     try {
       //Defines connection to the DBMS
       $dsn = DB_ENGINE . ':host=' . DB_HOST .';dbname='. DB_NAME;
@@ -60,8 +62,18 @@
         /*Sets the variables for miniTemplator with the 
           data reqrieved from the row in the query */
         if (isset($_SESSION['id'])) {
-          $_SESSION['wineList'][$_SESSION['nameCount']] = $row['wine_name'];
-          $_SESSION['nameCount'] += 1;
+          $same = false;
+          foreach ($_SESSION['wineList'] as $wName)
+          {
+            if ($wName == $row['wine_name'])
+            { 
+              $same = true;
+            }
+          }
+          if (!$same) {
+            $_SESSION['wineList'][$_SESSION['nameCount']] = $row['wine_name'];
+            $_SESSION['nameCount'] += 1;
+          }
         }
         $t->setVariable("wineName",$row["wine_name"]);
         $t->setVariable("variety",$row["variety"]);
@@ -86,16 +98,24 @@
     }
     //Lists number of records found
     $t->setVariable("rowsFound",$rowsFound);
+    $t->addBlock("rowsFoundBlock");
     /*create the output now that all the variables on the template are 
      filled */
+    }
     if (isset($_SESSION['id']))
     {
-      foreach($_SESSION['wineList'] as $name)
-      {
-        $t->setVariable("sessionValue",$name);
-        $t->addBlock("sessionItem");
-      }
+      if (isset($_GET['listWines'])) {
+        foreach($_SESSION['wineList'] as $name)
+        {
+          $t->setVariable("sessionValue",$name);
+          $t->addBlock("sessionItem");
+        }
       $t->addBlock("sessionBlock");
+      }
+      else { 
+        $t->addBlock("listWinesBlock");
+      }
+      $t->addBlock("searchAgainBlock");
       $t->addBlock("endSessionBlock");
     }
     $t->generateOutput(); 

@@ -54,6 +54,7 @@
   if (isset($_SESSION['id']) && ($_GET['sessionEnd'] == "true"))
   {
     session_destroy();
+    header("Location: index.php");
   }
 ?>
 <html>
