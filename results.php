@@ -2,10 +2,6 @@
 "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html401/loose.dtd">
 <?php
-  //Function to display mysql errors
-  function showerror() {
-    die("Error " . mysql_errno() . " : " .mysql_error());
-  }
   //Vaidates the input from a few fields in the input form
   function validateFormInput() {
     //Saves the min and max year from the GET
